@@ -1,6 +1,7 @@
 package com.ll.ioc;
 
 import com.ll.domain.testPost.testPost.repository.TestPostRepository;
+import com.ll.domain.testPost.testPost.service.TestFacadePostService;
 import com.ll.domain.testPost.testPost.service.TestPostService;
 
 import java.util.HashMap;
@@ -37,6 +38,10 @@ public class ApplicationContext {
         return switch (beanName) {
             case "testPostRepository" -> new TestPostRepository();
             case "testPostService" -> new TestPostService(genBean("testPostRepository"));
+            case "testFacadePostService" -> new TestFacadePostService(
+                    genBean("testPostService"),
+                    genBean("testPostRepository")
+            );
             default -> throw new IllegalArgumentException("등록되지 않은 빈입니다: " + beanName);
         };
     }
